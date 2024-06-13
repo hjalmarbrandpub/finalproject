@@ -1,1 +1,52 @@
 #Circleci config yaml file
+version: 2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/repo
+
+jobs:
+  lint:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            pip install pylint
+      - run:
+          name: Run pylint
+          command: |
+            . venv/bin/activate
+            pylint app
+
+  test:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            pip install pytest
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            pytest
+
+workflows:
+  version: 2
+  lint-and-test:
+    jobs:
+      - lint
+      - test:
+          requires:
+            - lint
