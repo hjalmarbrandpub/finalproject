@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    {% if quote %}
+        <h2>{{quote["name"]}} - {{quote["symbol"]}}</h2>
+        <p>Price: {{'${:,.2f}'.format(quote["price"])}}</p>
+    {% endif %}
+{% endblock %}

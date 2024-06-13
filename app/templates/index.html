@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in history %}
+                <tr>
+                    <td>{{row['symbol']}}</td>
+                    <td>{{row['name']}}</td>
+                    <td>{{row['shares']}}</td>
+                    <td>{{'${:,.2f}'.format(row['price'])}}</td>
+                    <td>{{'${:,.2f}'.format(row['price'] * row['shares'])}}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <!-- <td></td><td></td><td></td> -->
+                    <td coldspan="4" align="right"><b>Cash</b></td>
+                    <td>{{cash}}</td>
+                </tr>
+                <tr>
+                    <!-- <td></td><td></td><td></td> -->
+                    <td coldspan="4" align="right"><b>TOTAL</b></td>
+                    <td><b>{{total}}</b></td>
+                </tr>
+        </tbody>
+    </table>
+{% endblock %}
