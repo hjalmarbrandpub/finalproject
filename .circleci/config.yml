@@ -1,6 +1,7 @@
 #Circleci config yaml file
 version: 2.1
-
+defaults: &defaults
+  working_directory: ~/repo
 executors:
   python-executor:
     docker:
@@ -8,24 +9,8 @@ executors:
     working_directory: ~/repo
 
 jobs:
-  lint:
-    executor: python-executor
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-            pip install pylint
-      - run:
-          name: Run pylint
-          command: |
-            . venv/bin/activate
-            pylint app
-
   test:
+    <<: *defaults
     executor: python-executor
     steps:
       - checkout
@@ -36,15 +21,19 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             pip install pytest
+            pip install pylint
       - run:
           name: Run tests
           command: |
             . venv/bin/activate
             pytest
+            pytest --version
+            pytest --cov --cov-report=xml
+            pylint app
+            pylint ./**/*.py --output-format=json:lint.json 
 
 workflows:
   version: 2
   lint-and-test:
     jobs:
-      - lint
-      - test
+       - test
