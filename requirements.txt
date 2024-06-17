@@ -6,6 +6,7 @@ datetime
 pytz
 requests
 uuid
+flask-restful
 fastapi==0.104.1
 hypercorn==0.15.0
 dnspython==2.4.2

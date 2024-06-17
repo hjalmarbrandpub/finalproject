@@ -3,11 +3,13 @@ Module define flask server configuration
 """
 
 from flask import Flask
+from flask_restful import Api, Resource
 from hypercorn.asyncio import serve
 from hypercorn.config import Config as HyperCornConfig
 from prometheus_client import Counter
 
 app = Flask(__name__)
+api = Api(app)
 
 REQUESTS = Counter('server_requests_total', 'Total number of requests to this webserver')
 HEALTHCHECK_REQUESTS = Counter('healthcheck_requests_total', 'Total number of requests to healthcheck')
