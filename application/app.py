@@ -1,21 +1,27 @@
 """
-Module define fastapi server configuration
+Module define flask server configuration
 """
 
-from fastapi import FastAPI
+from flask import Flask
 from hypercorn.asyncio import serve
 from hypercorn.config import Config as HyperCornConfig
 from prometheus_client import Counter
 
-app = FastAPI()
+app = Flask(__name__)
 
 REQUESTS = Counter('server_requests_total', 'Total number of requests to this webserver')
 HEALTHCHECK_REQUESTS = Counter('healthcheck_requests_total', 'Total number of requests to healthcheck')
 MAIN_ENDPOINT_REQUESTS = Counter('main_requests_total', 'Total number of requests to main endpoint')
+REGISTER_ENDPOINT_REQUESTS = Counter('register_requests_total', 'Total number of requests to register endpoint')
+LOGIN_ENDPOINT_REQUESTS = Counter('login_requests_total', 'Total number of requests to login endpoint')
+LOGOUT_ENDPOINT_REQUESTS = Counter('logout_requests_total', 'Total number of requests to logout endpoint')
+BUY_ENDPOINT_REQUESTS = Counter('buy_requests_total', 'Total number of requests to buy endpoint')
+SELL_ENDPOINT_REQUESTS = Counter('sell_requests_total', 'Total number of requests to sell endpoint')
 
-class TestApp:
+
+class App:
     """
-    TestApp class define FastAPI configuration and implemented endpoints
+    App class define flask configuration and implemented endpoints
     """
 
     _hypercorn_config = None
@@ -41,71 +47,48 @@ class TestApp:
     @app.get("/")
     async def read_main():
         """Implement main endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
+        # Increment counter used for register the total number of calls in the webserver
         REQUESTS.inc()
-        # Increment counter used tor register the total number of calls in the main endpoint
+        # Increment counter used for register the total number of calls in the main endpoint
         MAIN_ENDPOINT_REQUESTS.inc()
-        return {"msg": "App ok"}
+        
     
-    @app.get("/buy")
-    async def read_main():
-        """Implement practise endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
-        REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the buy endpoint
-        BUY_ENDPOINT_REQUESTS.inc()
-        return {"msg": "buy endpoint"}
-
-    @app.get("/history")
-    async def read_main():
-        """Implement history endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
-        REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the history endpoint
-        HISTORY_ENDPOINT_REQUESTS.inc()
-        return {"msg": "history endpoint"}
-		
-	@app.get("/quote")
-    async def read_main():
-        """Implement quote endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
-        REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the quote endpoint
-        QUOTE_ENDPOINT_REQUESTS.inc()
-        return {"msg": "quote endpoint OK"}
-		
-	@app.get("/register")
-    async def read_main():
+    @app.get("/register")
+    async def read_register():
         """Implement register endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
+        # Increment counter used for register the total number of calls in the webserver
         REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the register endpoint
+        # Increment counter used for register the total number of calls in the registration endpoint
         REGISTER_ENDPOINT_REQUESTS.inc()
-        return {"msg": "register endpoint OK"}
-		
-	@app.get("/sell")
-    async def read_main():
-        """Implement sell endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
-        REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the sell endpoint
-        SELL_ENDPOINT_REQUESTS.inc()
-        return {"msg": "sell endpoint OK"}
-		
-	@app.get("/login")
-    async def read_main():
+    
+    @app.get("/login")
+    async def read_login():
         """Implement login endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
+        # Increment counter used for register the total number of calls in the webserver
         REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the login endpoint
+        # Increment counter used for register the total number of calls in the login endpoint
         LOGIN_ENDPOINT_REQUESTS.inc()
-        return {"msg": "login endpoint OK"}
-		
-	@app.get("/logout")
-    async def read_main():
+        
+    @app.get("/logout")
+    async def read_logout():
         """Implement logout endpoint"""
-        # Increment counter used to register the total number of calls in the webserver
+        # Increment counter used for register the total number of calls in the webserver
         REQUESTS.inc()
-        # Increment counter used to register the total number of calls in the logout endpoint
+        # Increment counter used for register the total number of calls in the login endpoint
         LOGOUT_ENDPOINT_REQUESTS.inc()
-        return {"msg": "logout endpoint OK"}
+    
+@app.get("/buy")
+    async def read_buy():
+        """Implement buy endpoint"""
+        # Increment counter used for register the total number of calls in the webserver
+        REQUESTS.inc()
+        # Increment counter used for register the total number of calls in the buy endpoint
+        BUY_ENDPOINT_REQUESTS.inc()    
+    
+@app.get("/sell")
+    async def read_sell():
+        """Implement sell endpoint"""
+        # Increment counter used for register the total number of calls in the webserver
+        REQUESTS.inc()
+        # Increment counter used for register the total number of calls in the sell endpoint
+        SELL_ENDPOINT_REQUESTS.inc()    
