@@ -69,7 +69,8 @@ def index():
         row["value"] = row["price"] * row["shares"]
         total += row["value"]
 
-    return render_template("index.html", history=history, cash='${:,.2f}'.format(cash), total='${:,.2f}'.format(total))
+    return render_template("index.html", history=history,
+    cash='${:,.2f}'.format(cash), total='${:,.2f}'.format(total))
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
@@ -97,8 +98,13 @@ def buy():
         db.execute("UPDATE users SET cash = :remains WHERE id = :user_id",
                    remains=remains, user_id=session["user_id"])
         # update history table
-        db.execute("INSERT INTO history (user_id, symbol, shares, price) VALUES (:user_id, :symbol, :shares, :price)",
-                   user_id=session["user_id"], symbol=symbol, shares=shares, price='${:,.2f}'.format(price))
+        db.execute(
+            "INSERT INTO history (user_id, symbol, shares, price) "
+            "VALUES (:user_id, :symbol, :shares, :price)",
+            user_id=session["user_id"],
+            symbol=symbol,
+            shares=shares,
+            price='${:,.2f}'.format(price))
         return redirect("/")
     else:
         return render_template("buy.html")
