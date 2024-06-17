@@ -47,6 +47,4 @@ workflows:
   lint-and-test:
     jobs:
       - lint
-      - test:
-          requires:
-            - lint
+      - test
