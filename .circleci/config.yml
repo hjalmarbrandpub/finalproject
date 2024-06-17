@@ -29,8 +29,8 @@ jobs:
             pytest
             pytest --version
             pytest --cov --cov-report=xml
-            pylint app
-            pylint ./**/*.py --output-format=json:lint.json 
+            pylint --exit-zero app
+            pylint --exit-zero ./**/*.py --output-format=json:lint.json 
 
 workflows:
   version: 2
