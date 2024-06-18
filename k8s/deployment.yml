@@ -1,0 +1,26 @@
+# Deployment yaml for stock app deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-app
+  namespace: stock-app
+  labels:
+    app: stock-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-app
+  template:
+    metadata:
+      labels:
+        app: stock-app
+    spec:
+      containers:
+        - name: stock-app
+          image: hjalmarb/final_project:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"

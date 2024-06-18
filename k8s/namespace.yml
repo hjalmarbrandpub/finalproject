@@ -1,0 +1,5 @@
+# Create namespace for stock app
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stock-app

@@ -1,0 +1,14 @@
+# Service yaml to expose app
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-app
+  namespace: stock-app
+spec:
+  selector:
+    app: stock-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
