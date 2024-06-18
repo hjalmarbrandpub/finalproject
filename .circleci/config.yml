@@ -35,7 +35,7 @@ jobs:
             pylint --exit-zero app
             pylint --exit-zero ./**/*.py --output-format=json:lint.json
       - store_test_results:
-          path: tests
+          path: app/tests
       - save_cache:
           paths:
             - ./venv
